@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GS7 – Unit 2 – Luyện tập tuần 15/10</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--sub:#5b6270;--line:#e1e4ec;--brand:#3d5af1;--good:#16794d;--good-bg:#e6f6ed;--bad:#b3262d;--bad-bg:#fdeaea;--gold:#f5a623}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:18px;padding:20px 14px 90px}
+.wrap{max-width:760px;margin:0 auto}
+h1{font-size:1.45rem;margin:0 0 4px}
+.sub{color:var(--sub);font-size:.95rem;margin:0 0 14px}
+.hud{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 10px}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.fill{height:100%;background:var(--brand);width:0;transition:width .25s}
+.hudrow{display:flex;justify-content:space-between;font-size:.9rem;color:var(--sub);margin-top:5px;gap:8px;flex-wrap:wrap}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.badge{font-size:.8rem;padding:3px 9px;border-radius:99px;background:#eceef5;color:#8a90a0;border:1px solid var(--line)}
+.badge.on{background:#fff4d9;color:#7a5200;border-color:var(--gold);font-weight:700}
+.info{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-wrap:wrap;gap:10px 14px;margin-bottom:16px}
+.info label{display:flex;flex-direction:column;font-size:.85rem;color:var(--sub);gap:4px;flex:1 1 170px}
+.info input{border:1.5px solid var(--line);border-radius:10px;padding:10px;font-size:1rem;font-family:inherit}
+.info input.miss{border-color:var(--bad)}
+section.lv{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 16px;margin-bottom:18px}
+section.lv h2{font-size:1.1rem;margin:0 0 2px}
+.desc{color:var(--sub);font-size:.92rem;margin:0 0 10px}
+.passage{background:#f1f4ff;border-left:4px solid var(--brand);padding:12px 14px;border-radius:8px;margin:8px 0 6px;font-size:1rem}
+.q{border-top:1px solid var(--line);padding:14px 0}
+.q:first-of-type{border-top:none}
+.qt{margin-bottom:8px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.btn{border:1.5px solid var(--line);background:#fff;color:var(--ink);padding:11px 14px;border-radius:10px;font-size:1rem;text-align:left;cursor:pointer;font-family:inherit}
+.btn:hover{border-color:var(--brand)}
+.btn.sel{border-color:var(--brand);background:#eef1ff;font-weight:600}
+.btn.ok{border-color:var(--good);background:var(--good-bg);color:var(--good);font-weight:700}
+.btn.no{border-color:var(--bad);background:var(--bad-bg);color:var(--bad);font-weight:700}
+input.txt{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 12px;font-size:1rem;font-family:inherit}
+input.txt:focus{outline:none;border-color:var(--brand)}
+.fb{display:none;margin-top:8px;padding:9px 12px;border-radius:8px;font-size:.92rem}
+.fb.show{display:block}.fb.good{background:var(--good-bg);color:var(--good)}.fb.bad{background:var(--bad-bg);color:var(--bad)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+button.p{background:var(--brand);color:#fff;border:none;border-radius:10px;padding:13px 22px;font-size:1rem;font-weight:700;cursor:pointer}
+button.p:disabled{opacity:.55;cursor:not-allowed}
+button.s{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:13px 22px;font-size:1rem;font-weight:700;cursor:pointer}
+#err{color:var(--bad);font-weight:600;margin-top:8px;display:none}
+#res{display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center;margin-top:18px}
+#res.show{display:block}
+.big{font-size:2.3rem;font-weight:800;color:var(--brand)}
+.rank{font-size:1.2rem;font-weight:800;margin:6px 0}
+#st{font-weight:600;font-size:.9rem;margin-top:8px}
+#st.ok{color:var(--good)}#st.err{color:var(--bad)}
+#prac{display:none;margin-top:18px}
+#prac.show{display:block}
+u{text-decoration:underline;text-underline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>GS7 – Unit 2 – Luyện tập tuần 15/10</h1>
+<p class="sub">Healthy Living · Sống khỏe · 35 câu · khoảng 25–30 phút. Mỗi câu đúng +10 XP, đúng 3 câu liền → Combo x2, BOSS +20 XP/câu.</p>
+<div class="info">
+<label>Trường (không bắt buộc)<input id="stuSchool" type="text" placeholder="Tên trường" autocomplete="off"></label>
+<label>Lớp *<input id="stuClass" type="text" placeholder="VD: 7A1" autocomplete="off"></label>
+<label>Họ và tên *<input id="stuName" type="text" placeholder="Họ và tên" autocomplete="off"></label>
+</div>
+<div class="hud">
+<div class="bar"><div class="fill" id="fill"></div></div>
+<div class="hudrow"><span id="plabel">Đã trả lời: 0/35</span><span id="xplabel">XP: 0</span></div>
+<div class="badges" id="badges"></div>
+</div>
+<div id="root"></div>
+<div class="row"><button class="p" id="submitBtn">Nộp bài</button><button class="s" id="resetBtn">Làm lại từ đầu</button></div>
+<div id="err"></div>
+<div id="res">
+<div>Điểm của em (thang 10)</div>
+<div class="big" id="score10"></div>
+<div id="cnt"></div>
+<div class="rank" id="rank"></div>
+<div id="xpres"></div>
+<div id="st"></div>
+<div class="row" style="justify-content:center"><button class="s" id="pracBtn">Luyện lại câu sai</button></div>
+<p class="sub" id="pracNote" style="display:none">Phần luyện lại chỉ để ôn tập, không gửi lại điểm.</p>
+</div>
+<div id="prac"></div>
+</div>
+<script>
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycby08od-VjK63bcLdiXGBgjz9imiBImjbBBKmjHqN1AnzfpBhEjFyItSniMfbPKm9TA/exec";
+const CLASS_LABEL="GS7";
+const TEST_NAME="Unit 2 - Healthy Living - Luyen tap tuan 1510";
+const CFG={"unit": 2, "title": "Healthy Living", "sound": "/f/ và /v/", "passage": "Hoa likes sports, but she often gets sunburn. Last summer, her mother gave her good advice. Now Hoa wears a hat and uses suncream when she goes out in the sun. She also drinks a lot of water and eats fruit every day. She sleeps for eight hours at night. Hoa feels fit and happy, and she has fewer spots on her face.", "levels": [{"key": "L1", "name": "LEVEL 1 – Khởi động", "desc": "Chọn nghĩa tiếng Việt đúng của từ.", "badge": "⭐ Từ vựng"}, {"key": "L2", "name": "LEVEL 2 – Phát âm", "desc": "Chọn đáp án đúng về phát âm và trọng âm.", "badge": "🔊 Phát âm"}, {"key": "L3", "name": "LEVEL 3 – Từ vựng & ngữ pháp", "desc": "Chọn đáp án đúng A, B, C hoặc D.", "badge": "🧠 Ngữ pháp"}, {"key": "L4", "name": "LEVEL 4 – Word form", "desc": "Viết dạng đúng của từ trong ngoặc.", "badge": "🔧 Word form"}, {"key": "L5", "name": "LEVEL 5 – Đồng nghĩa / Trái nghĩa", "desc": "Hai câu đầu: đồng nghĩa. Hai câu sau: trái nghĩa (từ gạch chân).", "badge": "🔁 Từ nghĩa"}, {"key": "L6", "name": "LEVEL 6 – Tìm lỗi sai", "desc": "Chọn phần (A, B, C hoặc D) có lỗi sai.", "badge": "🔍 Thám tử"}, {"key": "L7", "name": "LEVEL 7 – Viết lại câu", "desc": "Viết lại câu theo gợi ý, giữ nguyên nghĩa.", "badge": "✍️ Viết câu"}, {"key": "B", "name": "BOSS LEVEL – Đọc hiểu (+20 XP/câu)", "desc": "Đọc đoạn văn rồi trả lời.", "badge": "🏆 Boss"}], "qs": [{"t": "mc", "q": "<b>acne</b> nghĩa là gì?", "o": ["mụn trứng cá", "khô môi", "bệnh cúm", "cháy nắng"], "a": 0, "e": "acne = mụn trứng cá.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>sunburn</b> nghĩa là gì?", "o": ["mắt mệt mỏi", "cháy nắng", "sổ mũi", "mụn trứng cá"], "a": 1, "e": "sunburn = cháy nắng.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>flu</b> nghĩa là gì?", "o": ["bệnh cúm", "bệnh tim", "vi-rút", "cháy nắng"], "a": 0, "e": "flu = bệnh cúm.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>weight</b> nghĩa là gì?", "o": ["chiều cao", "thói quen", "năng lượng", "cân nặng"], "a": 3, "e": "weight = cân nặng.", "lv": 0, "xp": 10}, {"t": "mc", "q": "<b>fit</b> nghĩa là gì?", "o": ["béo phì", "cân đối, khỏe mạnh", "mệt mỏi", "bẩn"], "a": 1, "e": "fit = cân đối, khỏe mạnh.", "lv": 0, "xp": 10}, {"t": "mc", "q": "Chọn từ có phần gạch chân phát âm KHÁC:", "o": ["ha<u>v</u>e", "gi<u>v</u>e", "enou<u>gh</u>", "lo<u>v</u>e"], "a": 2, "e": "enough đọc /f/; các từ còn lại đọc /v/.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Chọn từ có phần gạch chân phát âm KHÁC:", "o": ["<u>v</u>ery", "<u>f</u>ace", "<u>f</u>un", "<u>f</u>ine"], "a": 0, "e": "very đọc /v/; các từ còn lại đọc /f/.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Chọn từ có trọng âm chính KHÁC:", "o": ["exercise", "unhealthy", "energy", "vitamin"], "a": 1, "e": "unhealthy nhấn âm 2; các từ còn lại nhấn âm 1.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Chọn từ có trọng âm chính KHÁC:", "o": ["advice", "habit", "sleepy", "sunburn"], "a": 0, "e": "advice nhấn âm 2; các từ còn lại nhấn âm 1.", "lv": 1, "xp": 10}, {"t": "mc", "q": "Which sentence is a simple sentence?", "o": ["Because I am thirsty.", "I drink water every day.", "When I get home.", "If you are tired."], "a": 1, "e": "Câu đơn có một mệnh đề đầy đủ (chủ ngữ + động từ): I drink water every day.", "lv": 2, "xp": 10}, {"t": "mc", "q": "Tom ___ his teeth twice a day.", "o": ["to brush", "brushes", "brushing", "brush"], "a": 1, "e": "Chủ ngữ ngôi 3 số ít → brushes.", "lv": 2, "xp": 10}, {"t": "mc", "q": "We ___ eat too much sugar.", "o": ["not should", "shouldn't", "should to", "don't should"], "a": 1, "e": "Lời khuyên không nên: shouldn't + V.", "lv": 2, "xp": 10}, {"t": "mc", "q": "My brother and I ___ football on Sundays.", "o": ["play", "plays", "playing", "is play"], "a": 0, "e": "Chủ ngữ số nhiều (My brother and I) → play.", "lv": 2, "xp": 10}, {"t": "mc", "q": "You ___ drink milk every day. It is good for your bones.", "o": ["shouldn't", "don't", "should", "aren't"], "a": 2, "e": "Lời khuyên nên làm: should + V.", "lv": 2, "xp": 10}, {"t": "mc", "q": "What ___ you do to stay healthy?", "o": ["does", "is", "do", "are"], "a": 2, "e": "What + do + you + V?", "lv": 2, "xp": 10}, {"t": "mc", "q": "Too much sun can give you ___.", "o": ["sunburn", "spots", "acne", "flu"], "a": 0, "e": "sunburn = cháy nắng do nắng gắt.", "lv": 2, "xp": 10}, {"t": "mc", "q": "Oranges are rich in ___ C.", "o": ["soap", "virus", "vitamin", "spot"], "a": 2, "e": "vitamin C có nhiều trong cam.", "lv": 2, "xp": 10}, {"t": "mc", "q": "I have the ___, so I stay at home with a high temperature.", "o": ["flu", "soap", "acne", "spots"], "a": 0, "e": "flu = bệnh cúm, gây sốt.", "lv": 2, "xp": 10}, {"t": "mc", "q": "She goes to bed early and gets enough sleep to stay ___.", "o": ["tired", "fit", "sad", "dirty"], "a": 1, "e": "stay fit = giữ vóc dáng khỏe mạnh.", "lv": 2, "xp": 10}, {"t": "fill", "q": "You should exercise ___. It is good for your health. (regular)", "a": ["regularly"], "e": "regular → regularly (adv).", "lv": 3, "xp": 10}, {"t": "fill", "q": "Too much sun is ___ for your skin. (danger)", "a": ["dangerous"], "e": "danger → dangerous (adj).", "lv": 3, "xp": 10}, {"t": "fill", "q": "I felt ___ after the long day, so I went to bed early. (sleep)", "a": ["sleepy"], "e": "sleep → sleepy (adj).", "lv": 3, "xp": 10}, {"t": "fill", "q": "Our teacher gave us some useful ___ about healthy eating. (inform)", "a": ["information"], "e": "inform → information (n).", "lv": 3, "xp": 10}, {"t": "mc", "q": "Nam is <u>ill</u> today. (Đồng nghĩa)", "o": ["strong", "busy", "sick", "lucky"], "a": 2, "e": "ill ≈ sick.", "lv": 4, "xp": 10}, {"t": "mc", "q": "Doctors tell us to <u>avoid</u> junk food. (Đồng nghĩa)", "o": ["stay away from", "look for", "cook", "buy more"], "a": 0, "e": "avoid ≈ stay away from.", "lv": 4, "xp": 10}, {"t": "mc", "q": "Smoking is <u>bad</u> for your lungs. (Trái nghĩa)", "o": ["loud", "late", "hot", "good"], "a": 3, "e": "bad ≠ good.", "lv": 4, "xp": 10}, {"t": "mc", "q": "Mai feels <u>strong</u> after exercising. (Trái nghĩa)", "o": ["thin", "tall", "weak", "quiet"], "a": 2, "e": "strong ≠ weak.", "lv": 4, "xp": 10}, {"t": "err", "q": "She <b>(A) have (B) a bad (C) cold (D) today.</b>", "o": ["have", "a bad", "cold", "today"], "a": 0, "e": "She là ngôi 3 số ít → has.", "lv": 5, "xp": 10}, {"t": "err", "q": "Dad <b>(A) and I (B) goes (C) jogging (D) every morning.</b>", "o": ["and I", "goes", "jogging", "every morning"], "a": 1, "e": "Dad and I là chủ ngữ số nhiều → go.", "lv": 5, "xp": 10}, {"t": "err", "q": "My brother <b>(A) don't (B) eat (C) breakfast (D) every day.</b>", "o": ["don't", "eat", "breakfast", "every day"], "a": 0, "e": "My brother là ngôi 3 số ít → doesn't.", "lv": 5, "xp": 10}, {"t": "rw", "q": "Eat less sugar. (Dùng should) → <b>You should ...</b>", "a": ["You should eat less sugar"], "e": "should + V nguyên mẫu.", "lv": 6, "xp": 10}, {"t": "rw", "q": "Jim eats vegetables every day. (Phủ định) → <b>Jim ...</b>", "a": ["Jim doesn't eat vegetables every day", "Jim does not eat vegetables every day"], "e": "Phủ định: doesn't + V.", "lv": 6, "xp": 10}, {"t": "rw", "q": "She plays tennis. She plays it on Sundays. (Viết thành 1 câu đơn) → <b>She plays tennis ...</b>", "a": ["She plays tennis on Sundays"], "e": "Gộp thành câu đơn: She plays tennis on Sundays.", "lv": 6, "xp": 10}, {"t": "tf", "q": "Hoa wears a hat and uses suncream when she goes out in the sun.", "o": ["True", "False"], "a": 0, "e": "Đoạn văn: Hoa wears a hat and uses suncream when she goes out in the sun.", "lv": 7, "xp": 20}, {"t": "mc", "q": "How many hours does Hoa sleep at night?", "o": ["Nine hours.", "Six hours.", "Seven hours.", "Eight hours."], "a": 3, "e": "Đoạn văn: She sleeps for eight hours at night.", "lv": 7, "xp": 20}]};
+const QS=CFG.qs, LV=CFG.levels;
+const ans=Array(QS.length).fill(null);
+let submitted=false, sent=false;
+function norm(s){return (s||"").toString().toLowerCase().replace(/[’‘`]/g,"'").replace(/[.!?,;:"']/g,"").replace(/\s+/g," ").trim();}
+function isRight(q,v){
+  if(v===null||v==="")return false;
+  if(q.t==="fill"||q.t==="rw"){const n=norm(v);return q.a.some(x=>norm(x)===n);}
+  return v===q.a;
+}
+function rightText(q){return q.t==="fill"||q.t==="rw"?q.a[0]:(q.t==="err"?"("+"ABCD"[q.a]+") "+q.o[q.a].replace(/<[^>]+>/g,""):q.o[q.a].replace(/<[^>]+>/g,""));}
+function qHtml(q,i,n){
+  let h='<div class="q" id="q'+i+'"><div class="qt"><b>'+n+'.</b> '+q.q+'</div>';
+  if(q.t==="fill"||q.t==="rw") h+='<input class="txt" type="text" data-i="'+i+'" autocomplete="off" autocapitalize="off" placeholder="'+(q.t==="rw"?"Viết cả câu ở đây…":"Viết đáp án…")+'">';
+  else{h+='<div class="opts">';q.o.forEach((o,k)=>{h+='<button type="button" class="btn" data-i="'+i+'" data-k="'+k+'">'+(q.t==="err"?"ABCD"[k]+". ":(q.t==="tf"?"":"ABCD"[k]+". "))+o+'</button>';});h+='</div>';}
+  return h+'<div class="fb" id="fb'+i+'"></div></div>';
+}
+const root=document.getElementById("root");
+let num=0;
+LV.forEach((L,li)=>{
+  const sec=document.createElement("section");sec.className="lv";
+  let h='<h2>'+L.name+'</h2><p class="desc">'+L.desc+(li===1?" Cặp âm: "+CFG.sound+".":"")+'</p>';
+  if(L.key==="B")h+='<div class="passage">'+CFG.passage+'</div>';
+  QS.forEach((q,i)=>{if(q.lv===li){num++;h+=qHtml(q,i,num);}});
+  sec.innerHTML=h;root.appendChild(sec);
+});
+const bd=document.getElementById("badges");
+LV.forEach(L=>{const s=document.createElement("span");s.className="badge";s.textContent=L.badge;s.id="b_"+L.key;bd.appendChild(s);});
+function progress(){
+  const a=ans.filter(v=>v!==null&&v!=="").length;
+  document.getElementById("fill").style.width=(a/QS.length*100)+"%";
+  document.getElementById("plabel").textContent="Đã trả lời: "+a+"/"+QS.length;
+  LV.forEach((L,li)=>{const idx=QS.map((q,i)=>q.lv===li?i:-1).filter(i=>i>=0);
+    document.getElementById("b_"+L.key).classList.toggle("on",idx.every(i=>ans[i]!==null&&ans[i]!==""));});
+}
+root.addEventListener("click",e=>{
+  const b=e.target.closest(".btn");if(!b||submitted)return;
+  const i=+b.dataset.i,k=+b.dataset.k;
+  b.parentNode.querySelectorAll(".btn").forEach(x=>x.classList.remove("sel"));
+  b.classList.add("sel");ans[i]=k;progress();
+});
+root.addEventListener("input",e=>{
+  const t=e.target;if(!t.classList.contains("txt")||submitted)return;
+  ans[+t.dataset.i]=t.value.trim();progress();
+});
+function sendResult(p){
+  const st=document.getElementById("st");
+  st.className="";st.textContent="Đang gửi kết quả…";
+  fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)})
+  .then(()=>{st.className="ok";st.textContent="Đã gửi kết quả về hệ thống.";})
+  .catch(er=>{st.className="err";st.textContent="Gửi thất bại (kiểm tra mạng): "+er.message;sent=false;});
+}
+document.getElementById("submitBtn").addEventListener("click",()=>{
+  if(submitted)return;
+  const nm=document.getElementById("stuName"),cl=document.getElementById("stuClass"),sc=document.getElementById("stuSchool");
+  nm.classList.remove("miss");cl.classList.remove("miss");
+  const er=document.getElementById("err");
+  if(!nm.value.trim()||!cl.value.trim()){
+    if(!nm.value.trim())nm.classList.add("miss");if(!cl.value.trim())cl.classList.add("miss");
+    er.style.display="block";er.textContent="Em hãy điền Họ và tên và Lớp trước khi nộp bài nhé.";
+    window.scrollTo({top:0,behavior:"smooth"});return;
+  }
+  er.style.display="none";submitted=true;
+  let correct=0,xp=0,streak=0;
+  QS.forEach((q,i)=>{
+    const ok=isRight(q,ans[i]);const fb=document.getElementById("fb"+i);
+    if(ok){correct++;const mult=streak>=3?2:1;xp+=q.xp*mult;streak++;fb.className="fb show good";fb.textContent="✓ Chính xác!"+(mult===2?" Combo x2!":"");}
+    else{streak=0;fb.className="fb show bad";fb.innerHTML="✗ Đáp án đúng: <b>"+rightText(q)+"</b>. "+q.e;}
+    const box=document.getElementById("q"+i);
+    if(q.t==="fill"||q.t==="rw"){box.querySelector("input").disabled=true;}
+    else box.querySelectorAll(".btn").forEach((b,k)=>{b.disabled=true;b.classList.remove("sel");if(k===q.a)b.classList.add("ok");else if(k===ans[i])b.classList.add("no");});
+  });
+  const total=QS.length,s10=(correct/total*10).toFixed(1),pct=correct/total*100;
+  document.getElementById("score10").textContent=s10+"/10";
+  document.getElementById("cnt").textContent="Đúng "+correct+"/"+total+" câu";
+  document.getElementById("rank").textContent=pct>=90?"🌟 Siêu sao Unit "+CFG.unit:(pct>=70?"⚔️ Chiến binh":"💪 Cố lên – làm lại để lên hạng");
+  document.getElementById("xpres").textContent="XP thưởng: "+xp;
+  document.getElementById("xplabel").textContent="XP: "+xp;
+  const r=document.getElementById("res");r.classList.add("show");
+  document.getElementById("submitBtn").disabled=true;
+  r.scrollIntoView({behavior:"smooth",block:"center"});
+  if(!sent){sent=true;sendResult({className:CLASS_LABEL,testName:TEST_NAME,school:sc.value.trim(),studentClass:cl.value.trim(),name:nm.value.trim(),correct:correct,total:total,score10:s10,timestamp:new Date().toISOString()});}
+});
+document.getElementById("resetBtn").addEventListener("click",()=>location.reload());
+/* Luyện lại câu sai (không gửi điểm) */
+document.getElementById("pracBtn").addEventListener("click",()=>{
+  const wrong=QS.map((q,i)=>isRight(q,ans[i])?-1:i).filter(i=>i>=0);
+  const p=document.getElementById("prac");document.getElementById("pracNote").style.display="block";
+  if(!wrong.length){p.innerHTML='<section class="lv"><h2>🎉 Em không sai câu nào!</h2></section>';p.className="show";return;}
+  let h='<section class="lv"><h2>Luyện lại câu sai ('+wrong.length+' câu)</h2><p class="desc">Chỉ để luyện tập, điểm không được gửi lại.</p>';
+  wrong.forEach((i,n)=>{const q=QS[i];
+    h+='<div class="q" data-p="'+i+'"><div class="qt"><b>'+(n+1)+'.</b> '+q.q+'</div>';
+    if(q.t==="fill"||q.t==="rw")h+='<input class="txt" type="text" autocomplete="off" autocapitalize="off"><div class="row"><button class="s chk" type="button">Kiểm tra</button></div>';
+    else{h+='<div class="opts">';q.o.forEach((o,k)=>{h+='<button type="button" class="btn pb" data-k="'+k+'">'+(q.t==="tf"?"":"ABCD"[k]+". ")+o+'</button>';});h+='</div>';}
+    h+='<div class="fb"></div></div>';});
+  p.innerHTML=h+'</section>';p.className="show";p.scrollIntoView({behavior:"smooth"});
+  p.addEventListener("click",e=>{
+    const box=e.target.closest("[data-p]");if(!box)return;const q=QS[+box.dataset.p],fb=box.querySelector(".fb");
+    const b=e.target.closest(".pb");
+    if(b){const k=+b.dataset.k,ok=k===q.a;
+      box.querySelectorAll(".pb").forEach((x,j)=>{x.classList.remove("ok","no");if(j===q.a)x.classList.add("ok");else if(j===k)x.classList.add("no");});
+      fb.className="fb show "+(ok?"good":"bad");fb.innerHTML=ok?"✓ Đúng rồi!":"✗ Chưa đúng. Đáp án: <b>"+rightText(q)+"</b>. "+q.e;}
+    if(e.target.classList.contains("chk")){const v=box.querySelector("input").value,ok=isRight(q,v);
+      fb.className="fb show "+(ok?"good":"bad");fb.innerHTML=ok?"✓ Đúng rồi!":"✗ Chưa đúng. Đáp án: <b>"+rightText(q)+"</b>. "+q.e;}
+  });
+});
+progress();
+</script>
+</body>
+</html>
